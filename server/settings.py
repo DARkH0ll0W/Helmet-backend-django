@@ -61,6 +61,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "https://bio-sensor-helmet-dashboard.vercel.app",
+    "https://project-frontend-ten-orcin.vercel.app"
 ]
 
 
