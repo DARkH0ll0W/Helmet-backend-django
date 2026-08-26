@@ -11,15 +11,14 @@ class Device(models.Model):
 
 class SensorReading(models.Model):
     MOTION_CHOICES = [
-        ("idle", "Idle"),
-        ("walking", "Walking"),
-        ("falling", "Falling"),
+        ("normal", "Normal"),
+        ("fall_detected", "Fall Detected"),
     ]
 
     motion_status = models.CharField(
-        max_length=20,
+         max_length=20,
         choices=MOTION_CHOICES,
-        default="idle"
+        default="normal",
     )
 
     device = models.ForeignKey(
