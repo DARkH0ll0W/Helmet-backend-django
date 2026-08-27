@@ -25,7 +25,7 @@ class DeviceViewset(viewsets.ModelViewSet):
     serializer_class = DeviceSerializer
 
 class SensorReadingViewSet(viewsets.ModelViewSet):
-    queryset = SensorReading.objects.all().order_by("-timestamp")
+    queryset = SensorReading.objects.select_related("device").order_by("-timestamp")[:200]
     serializer_class = SensorReadingSerializer
 
     def create(self, request, *args, **kwargs):

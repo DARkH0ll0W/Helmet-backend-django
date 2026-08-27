@@ -20,3 +20,4 @@ class SensorReadingAdmin(admin.ModelAdmin):
         "gas_status",
         "timestamp",
     )
+    list_select_related = ("device",)
