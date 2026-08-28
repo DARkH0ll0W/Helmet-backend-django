@@ -35,7 +35,7 @@ class SensorReadingViewSet(viewsets.ModelViewSet):
             print(serializer.errors)
             return Response(
                 serializer.errors,
-                status=status.HTTP_400_BAD_REQUEST
+                status=s-tatus.HTTP_400_BAD_REQUEST
             )
 
         serializer.save()

@@ -9,6 +9,7 @@ class Device(models.Model):
     def __str__(self):
         return self.name
 
+
 class SensorReading(models.Model):
     MOTION_CHOICES = [
         ("normal", "Normal"),
@@ -16,37 +17,45 @@ class SensorReading(models.Model):
     ]
 
     motion_status = models.CharField(
-         max_length=20,
+        max_length=20,
         choices=MOTION_CHOICES,
         default="normal",
     )
 
     device = models.ForeignKey(
         Device,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
     )
 
     heart_rate = models.FloatField()
     spo2 = models.FloatField()
     temperature = models.FloatField()
-    
+
     mq135 = models.FloatField(default=0.0)
     mq2 = models.FloatField(default=0.0)
 
+    mq135_normalized = models.FloatField(null=True, blank=True)
+    mq2_normalized = models.FloatField(null=True, blank=True)
+
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    def gas_status(self):
+        values = [
+            value
+            for value in (
+                self.mq135_normalized,
+                self.mq2_normalized,
+            )
+            if value is not None
+        ]
 
+        if not values:
+            return "Unavailable"
+
+        if max(values) >= 1.8:
+            return "Warning"
+
+        return "Safe"
 
     class Meta:
         ordering = ["-timestamp"]
-
-    def gas_status(self):
-        gas_level = max(self.mq135, self.mq2)
-
-        if gas_level <= 50:
-            return "Safe"
-        elif gas_level <= 100:
-            return "Moderate"
-        elif gas_level <= 200:
-            return "Danger"
-        return "Critical"
