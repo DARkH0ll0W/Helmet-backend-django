@@ -27,9 +27,9 @@ class SensorReading(models.Model):
         on_delete=models.CASCADE,
     )
 
-    heart_rate = models.FloatField()
-    spo2 = models.FloatField()
-    temperature = models.FloatField()
+    heart_rate = models.FloatField(null=True, blank=True)
+    spo2 = models.FloatField(null=True, blank=True)
+    temperature = models.FloatField(null=True, blank=True)
 
     mq135 = models.FloatField(default=0.0)
     mq2 = models.FloatField(default=0.0)
